@@ -76,6 +76,13 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="thread_pool.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="thread_cond.c" />
+    <ClInclude Include="thread_pool.h" />
+    <ClInclude Include="thread_pool_def.h" />
+    <ClInclude Include="thread_mutex.c" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
