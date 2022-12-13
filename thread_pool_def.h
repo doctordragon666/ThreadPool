@@ -1,6 +1,9 @@
 #ifndef _THREAD_POOL_DEF_H_
 #define _THREAD_POOL_DEF_H_
 
+//调试开关
+static int debug = 0;
+
 //系统头文件包含
 #include <stdio.h>
 #include <stdint.h>
@@ -9,6 +12,7 @@
 #include <pthread.h>	//线程函数
 #include <errno.h>
 #include <string.h>
+#include <unistd.h>
 
 //跨平台类型定义
 typedef intptr_t        int_t;
@@ -22,7 +26,7 @@ typedef unsigned long         atomic_uint_t;
 #define DEFAULT_QUEUE_NUM  65535  //最大任务队列长度
 #define thread_pool_queue_init(q)                                         \
     (q)->first = NULL;                                                    \
-    (q)->last = &(q)->first 
+    (q)->last = &(q)->first
 
 //线程任务
 typedef struct thread_task_s {
@@ -39,7 +43,7 @@ typedef struct {
 } thread_pool_queue_t;//单链表
 
 //线程池
-typedef struct thread_pool_s {
+struct thread_pool_t {
 	pthread_mutex_t        mtx;		//锁
 	thread_pool_queue_t   queue;	//线程池队列
 	int_t                 waiting;	//等待的任务数量
@@ -48,6 +52,6 @@ typedef struct thread_pool_s {
 	char* name;						//线程池的名字
 	uint_t                threads;	//线程的数量
 	int_t                 max_queue;//最大队列长度
-}thread_pool_t;
+};
 
 #endif // !_THREAD_POOL_DEF_H_
