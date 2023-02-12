@@ -2,7 +2,7 @@
 #define _THREAD_POOL_DEF_H_
 
 //调试开关
-static int debug = 0;
+static int debug = 1;
 
 //系统头文件包含
 #include <stdio.h>
