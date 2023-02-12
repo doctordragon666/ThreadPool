@@ -65,13 +65,9 @@ int ThreadMutex::thread_mutex_unlock(pthread_mutex_t* mtx)
 
 	err = pthread_mutex_unlock(mtx);
 
-#if 0
-	ngx_time_update();
-#endif
-
 	if (err == 0) {
 		return OK;
-	}
+}
 
 	fprintf(stderr, "pthread_mutex_unlock() failed, reason: %s\n", strerror(errno));
 	return ERROR;

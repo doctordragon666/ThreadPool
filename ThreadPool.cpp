@@ -31,7 +31,7 @@ thread_task_t* ThreadPool::thread_task_alloc(size_t size)
 		return NULL;
 	}
 
-	task->ctx = task + 1;//这里加一其实是加上了整个结构体，可以重新获取到传入的struct
+	task->ctx = task + 1;//设置为结构体末尾，如果参数大小为0，则指向末尾地址，如果大于0，则指向calloc分配的size的起始地址
 
 	return task;
 }
@@ -72,7 +72,7 @@ int_t ThreadPool::thread_task_post(thread_pool_t* tp, thread_task_t* task)
 
 thread_pool_t* ThreadPool::thread_pool_init()
 {
-	int             err;
+	int err;
 
 	thread_pool_t* tp = (thread_pool_t*)calloc(1, sizeof(thread_pool_t));
 	if (tp == NULL) {
@@ -146,8 +146,6 @@ void ThreadPool::thread_pool_destroy(thread_pool_t* tp)
 		while (lock) {
 			sched_yield();//让渡cpu的执行权
 		}
-
-		//task.event.active = 0;
 	}
 
 	(void)m_tc->thread_cond_destroy(&tp->cond);
