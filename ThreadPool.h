@@ -48,7 +48,6 @@ public:
 	{
 		thread_pool_t* tp = (thread_pool_t*)data;
 
-		int                 err;
 		thread_task_t* task;
 
 		if (debug)fprintf(stderr, "thread in pool \"%s\" started\n", tp->name);
