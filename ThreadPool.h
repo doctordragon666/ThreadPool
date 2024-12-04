@@ -11,30 +11,30 @@ public:
 	ThreadPool();
 	~ThreadPool();
 	/// <summary>
-	/// ÈÎÎñ·ÖÅäº¯Êı
+	/// ä»»åŠ¡åˆ†é…å‡½æ•°
 	/// </summary>
-	/// <param name="size">²ÎÊıµÄ½á¹¹Ìå´óĞ¡</param>
+	/// <param name="size">å‚æ•°çš„ç»“æ„ä½“å¤§å°</param>
 	/// <returns>thread_task_t*</returns>
 	thread_task_t* thread_task_alloc(size_t size);
 
 	/// <summary>
-	/// Ïß³ÌÍ¶µİº¯Êı
+	/// çº¿ç¨‹æŠ•é€’å‡½æ•°
 	/// </summary>
-	/// <param name="tp">Ïß³Ì³Ø</param>
+	/// <param name="tp">çº¿ç¨‹æ± </param>
 	/// <param name="task"></param>
-	/// <returns>³É¹¦»òÊ§°Ü</returns>
+	/// <returns>æˆåŠŸæˆ–å¤±è´¥</returns>
 	int_t thread_task_post(thread_pool_t* tp, thread_task_t* task);
 
 	/// <summary>
-	/// Ïß³Ì³Ø³õÊ¼»¯
+	/// çº¿ç¨‹æ± åˆå§‹åŒ–
 	/// </summary>
-	/// <returns>Ïß³Ì³Ø</returns>
+	/// <returns>çº¿ç¨‹æ± </returns>
 	thread_pool_t* thread_pool_init();
 
 	/// <summary>
-	/// Ïß³Ì³ØÏú»Ù
+	/// çº¿ç¨‹æ± é”€æ¯
 	/// </summary>
-	/// <param name="tp">Ïú»ÙµÄÏß³Ì³Ø</param>
+	/// <param name="tp">é”€æ¯çš„çº¿ç¨‹æ± </param>
 	void thread_pool_destroy(thread_pool_t* tp);
 	static void thread_pool_exit_handler(void* data)
 	{
@@ -42,7 +42,7 @@ public:
 
 		*lock = 0;
 
-		pthread_exit(0);//×ÔÉ±ÈÎÎñ
+		pthread_exit(0);//è‡ªæ€ä»»åŠ¡
 	}
 	static void* thread_pool_cycle(void* data)
 	{
@@ -55,9 +55,9 @@ public:
 		for (;; ) {
 			if (ThreadMutex::thread_mutex_lock(&tp->mtx) != OK) {
 				return NULL;
-			}//ÉÏËø
+			}//ä¸Šé”
 
-			tp->waiting--;//µÈ´ı¼õÉÙ
+			tp->waiting--;//ç­‰å¾…å‡å°‘
 
 			while (tp->queue.first == NULL) {
 				if (ThreadCond::thread_cond_wait(&tp->cond, &tp->mtx)
@@ -65,7 +65,7 @@ public:
 				{
 					(void)ThreadMutex::thread_mutex_unlock(&tp->mtx);
 					return NULL;
-				}//Ã»ÓĞÈÎÎñ³¢ÊÔ¹ÒÆğÏß³Ì
+				}//æ²¡æœ‰ä»»åŠ¡å°è¯•æŒ‚èµ·çº¿ç¨‹
 			}
 
 			task = tp->queue.first;
@@ -82,13 +82,13 @@ public:
 			if (debug) fprintf(stderr, "run task #%lu in thread pool \"%s\"\n",
 				task->id, tp->name);
 
-			task->handler(task->ctx);//Ö´ĞĞº¯Êı
+			task->handler(task->ctx);//æ‰§è¡Œå‡½æ•°
 
 			if (debug) fprintf(stderr, "complete task #%lu in thread pool \"%s\"\n", task->id, tp->name);
 
 			task->next = NULL;
 
-			//ÊÍ·Åtask
+			//é‡Šæ”¾task
 			free(task);
 		}
 	}
@@ -108,7 +108,7 @@ public:
 		}
 		return ERROR;
 	}
-	static uint_t thread_pool_task_id;//»á³õÊ¼»¯Îª0
+	static uint_t thread_pool_task_id;//ä¼šåˆå§‹åŒ–ä¸º0
 private:
 	ThreadCond* m_tc;
 	ThreadMutex* m_tm;

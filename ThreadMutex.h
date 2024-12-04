@@ -7,28 +7,28 @@ class ThreadMutex
 {
 public:
 	/// <summary>
-	/// ´´½¨Ëø
+	/// åˆ›å»ºé”
 	/// </summary>
-	/// <param name="mtx">³õÊ¼»¯µÄËø</param>
-	/// <returns>³É¹¦»òÊ§°Ü</returns>
+	/// <param name="mtx">åˆå§‹åŒ–çš„é”</param>
+	/// <returns>æˆåŠŸæˆ–å¤±è´¥</returns>
 	static int thread_mutex_create(pthread_mutex_t* mtx);
 
 	/// <summary>
-	/// Ïú»ÙËø
+	/// é”€æ¯é”
 	/// </summary>
 	/// <param name="mtx"></param>
 	/// <returns></returns>
 	static int thread_mutex_destroy(pthread_mutex_t* mtx);
 
 	/// <summary>
-	/// ÉÏËø
+	/// ä¸Šé”
 	/// </summary>
 	/// <param name="mtx"></param>
 	/// <returns></returns>
 	static int thread_mutex_lock(pthread_mutex_t* mtx);
 
 	/// <summary>
-	/// ½âËø
+	/// è§£é”
 	/// </summary>
 	/// <param name="mtx"></param>
 	/// <returns></returns>

@@ -3,38 +3,38 @@
 #include "thread_pool_def.h"
 
 /*********************
-¶¨ÒåÁËËùÓĞÏß³ÌÌõ¼ş±äÁ¿£¬
-´ó²¿·Ö¶¼ÊÇ¼òµ¥·â×°
+å®šä¹‰äº†æ‰€æœ‰çº¿ç¨‹æ¡ä»¶å˜é‡ï¼Œ
+å¤§éƒ¨åˆ†éƒ½æ˜¯ç®€å•å°è£…
 **********************/
 class ThreadCond
 {
 public:
 	/// <summary>
-	/// ·â×°Ìõ¼ş±äÁ¿£¬·µ»ØĞÅºÅÁ¿
+	/// å°è£…æ¡ä»¶å˜é‡ï¼Œè¿”å›ä¿¡å·é‡
 	/// </summary>
-	/// <param name="cond">³õÊ¼»¯µÄĞÅºÅÁ¿</param>
-/// <returns>³É¹¦»òÊ§°Ü</returns>
+	/// <param name="cond">åˆå§‹åŒ–çš„ä¿¡å·é‡</param>
+/// <returns>æˆåŠŸæˆ–å¤±è´¥</returns>
 	int thread_cond_create(pthread_cond_t* cond);
 
 	/// <summary>
-	/// Ïú»ÙĞÅºÅÁ¿
+	/// é”€æ¯ä¿¡å·é‡
 	/// </summary>
-	/// <param name="cond">ÒªÏú»ÙµÄĞÅºÅÁ¿</param>
-	/// <returns>³É¹¦»òÊ§°Ü</returns>
+	/// <param name="cond">è¦é”€æ¯çš„ä¿¡å·é‡</param>
+	/// <returns>æˆåŠŸæˆ–å¤±è´¥</returns>
 	int thread_cond_destroy(pthread_cond_t* cond);
 
 	/// <summary>
-	/// ·¢ËÍĞÅºÅÁ¿£¬»½ĞÑÏß³Ì
+	/// å‘é€ä¿¡å·é‡ï¼Œå”¤é†’çº¿ç¨‹
 	/// </summary>
-	/// <param name="cond">ĞÅºÅÁ¿</param>
-	/// <returns>³É¹¦»òÊ§°Ü</returns>
+	/// <param name="cond">ä¿¡å·é‡</param>
+	/// <returns>æˆåŠŸæˆ–å¤±è´¥</returns>
 	int thread_cond_signal(pthread_cond_t* cond);
 
 	/// <summary>
-	/// µÈ´ıĞÅºÅÁ¿
+	/// ç­‰å¾…ä¿¡å·é‡
 	/// </summary>
-	/// <param name="cond">ĞÅºÅÁ¿</param>
-	/// <returns>³É¹¦»òÊ§°Ü</returns>
+	/// <param name="cond">ä¿¡å·é‡</param>
+	/// <returns>æˆåŠŸæˆ–å¤±è´¥</returns>
 	static int thread_cond_wait(pthread_cond_t* cond, pthread_mutex_t* mtx);
 private:
 	

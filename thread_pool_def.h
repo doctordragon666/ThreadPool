@@ -1,57 +1,57 @@
 #ifndef _THREAD_POOL_DEF_H_
 #define _THREAD_POOL_DEF_H_
 
-//µ÷ÊÔ¿ª¹Ø
+//è°ƒè¯•å¼€å…³
 static int debug = 1;
 
-//ÏµÍ³Í·ÎÄ¼ş°üº¬
+//ç³»ç»Ÿå¤´æ–‡ä»¶åŒ…å«
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <sys/types.h>	//ÀàĞÍ°üº¬
-#include <pthread.h>	//Ïß³Ìº¯Êı
+#include <sys/types.h>	//ç±»å‹åŒ…å«
+#include <pthread.h>	//çº¿ç¨‹å‡½æ•°
 #include <errno.h>
 #include <string.h>
 #include <unistd.h>
 
-//¿çÆ½Ì¨ÀàĞÍ¶¨Òå
+//è·¨å¹³å°ç±»å‹å®šä¹‰
 typedef intptr_t        int_t;
 typedef uintptr_t       uint_t;
 typedef unsigned long         atomic_uint_t;
 
-//È«¾ÖÏß³Ì±äÁ¿¶¨Òå
+//å…¨å±€çº¿ç¨‹å˜é‡å®šä¹‰
 #define  OK          0
 #define  ERROR      -1
-#define DEFAULT_THREADS_NUM 4     //Ä¬ÈÏÏß³ÌÊı
-#define DEFAULT_QUEUE_NUM  65535  //×î´óÈÎÎñ¶ÓÁĞ³¤¶È
+#define DEFAULT_THREADS_NUM 4     //é»˜è®¤çº¿ç¨‹æ•°
+#define DEFAULT_QUEUE_NUM  65535  //æœ€å¤§ä»»åŠ¡é˜Ÿåˆ—é•¿åº¦
 #define thread_pool_queue_init(q)                                         \
     (q)->first = NULL;                                                    \
     (q)->last = &(q)->first
 
-//Ïß³ÌÈÎÎñ
+//çº¿ç¨‹ä»»åŠ¡
 typedef struct thread_task_s {
-	struct thread_task_s* next;	//ÏÂÒ»¸öÈÎÎñ
-	uint_t  id;					//¾ßÌåÈÎÎñµÄid
-	void* ctx;					//²ÎÊı£¬ÉÏÏÂÎÄ
-	void (*handler)(void* data);//´¦Àíº¯Êı
+	struct thread_task_s* next;	//ä¸‹ä¸€ä¸ªä»»åŠ¡
+	uint_t  id;					//å…·ä½“ä»»åŠ¡çš„id
+	void* ctx;					//å‚æ•°ï¼Œä¸Šä¸‹æ–‡
+	void (*handler)(void* data);//å¤„ç†å‡½æ•°
 }thread_task_t;
 
-//Ïß³ÌÈÎÎñ¶ÓÁĞ
+//çº¿ç¨‹ä»»åŠ¡é˜Ÿåˆ—
 typedef struct {
-	thread_task_t* first;//Í·Ö¸Õë
-	thread_task_t** last;//Î²Ö¸Õë
-} thread_pool_queue_t;//µ¥Á´±í
+	thread_task_t* first;//å¤´æŒ‡é’ˆ
+	thread_task_t** last;//å°¾æŒ‡é’ˆ
+} thread_pool_queue_t;//å•é“¾è¡¨
 
-//Ïß³Ì³Ø
+//çº¿ç¨‹æ± 
 struct thread_pool_t {
-	pthread_mutex_t        mtx;		//Ëø
-	thread_pool_queue_t   queue;	//Ïß³Ì³Ø¶ÓÁĞ
-	int_t                 waiting;	//µÈ´ıµÄÈÎÎñÊıÁ¿
-	pthread_cond_t         cond;	//Ìõ¼ş±äÁ¿
+	pthread_mutex_t        mtx;		//é”
+	thread_pool_queue_t   queue;	//çº¿ç¨‹æ± é˜Ÿåˆ—
+	int_t                 waiting;	//ç­‰å¾…çš„ä»»åŠ¡æ•°é‡
+	pthread_cond_t         cond;	//æ¡ä»¶å˜é‡
 
-	char* name;						//Ïß³Ì³ØµÄÃû×Ö
-	uint_t                threads;	//Ïß³ÌµÄÊıÁ¿
-	int_t                 max_queue;//×î´ó¶ÓÁĞ³¤¶È
+	char* name;						//çº¿ç¨‹æ± çš„åå­—
+	uint_t                threads;	//çº¿ç¨‹çš„æ•°é‡
+	int_t                 max_queue;//æœ€å¤§é˜Ÿåˆ—é•¿åº¦
 };
 
 #endif // !_THREAD_POOL_DEF_H_

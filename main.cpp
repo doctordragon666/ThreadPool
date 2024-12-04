@@ -4,7 +4,7 @@
 #include "ThreadCond.h"
 
 /// <summary>
-/// 测试使用
+/// 娴嬭瘯浣跨敤
 /// </summary>
 
 struct test {
@@ -33,30 +33,30 @@ void task_handler3(void* data) {
 int main(int argc, char** argv)
 {
 	ThreadPool* tp = new ThreadPool();
-	//初始化线程池
+	//鍒濆鍖栫嚎绋嬫睜
 	thread_pool_t* init_tp = tp->thread_pool_init();
 
-	//提取线程
+	//鎻愬彇绾跨▼
 	thread_task_t* test1 = tp->thread_task_alloc(0);
 	thread_task_t* test2 = tp->thread_task_alloc(0);
-	thread_task_t* test3 = tp->thread_task_alloc(sizeof(struct test));//分配参数
+	thread_task_t* test3 = tp->thread_task_alloc(sizeof(struct test));//鍒嗛厤鍙傛暟
 
-	//指定线程任务
+	//鎸囧畾绾跨▼浠诲姟
 	test1->handler = task_handler1;
 	test2->handler = task_handler2;
 	test3->handler = task_handler3;
 
-	//指定线程参数
+	//鎸囧畾绾跨▼鍙傛暟
 	((struct test*)test3->ctx)->arg1 = 666;
 	((struct test*)test3->ctx)->arg2 = 888;
 
-	//投递到线程池中
+	//鎶曢�掑埌绾跨▼姹犱腑
 	tp->thread_task_post(init_tp, test1);
 	tp->thread_task_post(init_tp, test2);
 	tp->thread_task_post(init_tp, test3);
 
 	sleep(10);
 
-	//销毁线程池
+	//閿�姣佺嚎绋嬫睜
 	tp->thread_pool_destroy(init_tp);
 }
