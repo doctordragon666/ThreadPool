@@ -1,3 +1,9 @@
+/*************************************************
+Date: 2024年12月1日19点27分
+Description:
+建立一个简单的线程池
+*************************************************/
+
 #include "thread_pool_def.h"
 #include "ThreadMutex.h"
 #include "ThreadPool.h"
@@ -55,8 +61,10 @@ int main(int argc, char** argv)
 	tp->thread_task_post(init_tp, test2);
 	tp->thread_task_post(init_tp, test3);
 
-	sleep(10);
+	// sleep(10);
 
 	//销毁线程池
 	tp->thread_pool_destroy(init_tp);
+
+	delete tp;
 }

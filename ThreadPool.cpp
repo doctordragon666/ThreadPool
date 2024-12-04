@@ -24,14 +24,12 @@ ThreadPool::~ThreadPool()
 
 thread_task_t* ThreadPool::thread_task_alloc(size_t size)
 {
-	thread_task_t* task;
-
-	task = (thread_task_t*)calloc(1, sizeof(thread_task_t) + size);
+	thread_task_t* task = (thread_task_t*)calloc(1, sizeof(thread_task_t) + size);
 	if (task == NULL) {
 		return NULL;
 	}
 
-	task->ctx = task + 1;//ÉèÖÃÎª½á¹¹ÌåÄ©Î²£¬Èç¹û²ÎÊı´óĞ¡Îª0£¬ÔòÖ¸ÏòÄ©Î²µØÖ·£¬Èç¹û´óÓÚ0£¬ÔòÖ¸Ïòcalloc·ÖÅäµÄsizeµÄÆğÊ¼µØÖ·
+	task->ctx = task + 1;//è®¾ç½®ä¸ºç»“æ„ä½“æœ«å°¾ï¼Œå¦‚æœå‚æ•°å¤§å°ä¸º0ï¼Œåˆ™æŒ‡å‘æœ«å°¾åœ°å€ï¼Œå¦‚æœå¤§äº0ï¼Œåˆ™æŒ‡å‘callocåˆ†é…çš„sizeçš„èµ·å§‹åœ°å€
 
 	return task;
 }
@@ -40,7 +38,7 @@ int_t ThreadPool::thread_task_post(thread_pool_t* tp, thread_task_t* task)
 {
 	if (m_tm->thread_mutex_lock(&tp->mtx) != OK) {
 		return ERROR;
-	}//È¡Ëø
+	}//å–é”
 
 	if (tp->waiting >= tp->max_queue) {
 		(void)m_tm->thread_mutex_unlock(&tp->mtx);
@@ -48,18 +46,18 @@ int_t ThreadPool::thread_task_post(thread_pool_t* tp, thread_task_t* task)
 		fprintf(stderr, "thread pool \"%s\" queue overflow: %ld tasks waiting\n",
 			tp->name, tp->waiting);
 		return ERROR;
-	}//¶ÓÁĞÊÇ·ñÒÑ¾­ÂúÁË
+	}//é˜Ÿåˆ—æ˜¯å¦å·²ç»æ»¡äº†
 
-	task->id = thread_pool_task_id++;//·ÖÅäÒ»¸öid
+	task->id = thread_pool_task_id++;//åˆ†é…ä¸€ä¸ªid
 	task->next = NULL;
 
 	if (m_tc->thread_cond_signal(&tp->cond) != OK) {
 		(void)m_tm->thread_mutex_unlock(&tp->mtx);
 		return ERROR;
-	}//°Ñ¹ÒÆğµÄÏß³ÌÖ´ĞĞ
+	}//æŠŠæŒ‚èµ·çš„çº¿ç¨‹æ‰§è¡Œ
 
 	*tp->queue.last = task;
-	tp->queue.last = &task->next;//Î²²å
+	tp->queue.last = &task->next;//å°¾æ’
 
 	tp->waiting++;
 
@@ -81,7 +79,7 @@ thread_pool_t* ThreadPool::thread_pool_init()
 
 	ThreadPool::thread_pool_init_default(tp, NULL);
 
-	thread_pool_queue_init(&tp->queue);//³õÊ¼»¯ÈÎÎñ¶ÓÁĞ
+	thread_pool_queue_init(&tp->queue);//åˆå§‹åŒ–ä»»åŠ¡é˜Ÿåˆ—
 
 	if (m_tm->thread_mutex_create(&tp->mtx) != OK) {
 		free(tp);
@@ -102,7 +100,7 @@ thread_pool_t* ThreadPool::thread_pool_init()
 		return NULL;
 	}
 
-	//PTHREAD_CREATE_DETACHED£ºÔÚÏß³Ì´´½¨Ê±ÉèÖÃ·ÖÀë×´Ì¬£¬Ö÷Ïß³ÌÎŞ·¨µÈ´ıµ½½áÊøµÄ×ÓÏß³Ì
+	//PTHREAD_CREATE_DETACHEDï¼šåœ¨çº¿ç¨‹åˆ›å»ºæ—¶è®¾ç½®åˆ†ç¦»çŠ¶æ€ï¼Œä¸»çº¿ç¨‹æ— æ³•ç­‰å¾…åˆ°ç»“æŸçš„å­çº¿ç¨‹
 	err = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 	if (err) {
 		fprintf(stderr, "pthread_attr_setdetachstate() failed, reason: %s\n", strerror(errno));
@@ -110,7 +108,7 @@ thread_pool_t* ThreadPool::thread_pool_init()
 		return NULL;
 	}
 
-	//Ö÷Ñ­»·
+	//ä¸»å¾ªç¯
 	pthread_t  tid;
 	for (uint_t n = 0; n < tp->threads; n++) {
 		err = pthread_create(&tid, &attr, ThreadPool::thread_pool_cycle, tp);
@@ -121,7 +119,7 @@ thread_pool_t* ThreadPool::thread_pool_init()
 		}
 	}
 
-	(void)pthread_attr_destroy(&attr);//ÊôĞÔÏú»Ù
+	(void)pthread_attr_destroy(&attr);//å±æ€§é”€æ¯
 
 	return tp;
 }
@@ -144,7 +142,7 @@ void ThreadPool::thread_pool_destroy(thread_pool_t* tp)
 		}
 
 		while (lock) {
-			sched_yield();//ÈÃ¶ÉcpuµÄÖ´ĞĞÈ¨
+			sched_yield();//è®©æ¸¡cpuçš„æ‰§è¡Œæƒ
 		}
 	}
 

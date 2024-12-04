@@ -3,29 +3,29 @@
 int ThreadMutex::thread_mutex_create(pthread_mutex_t* mtx)
 {
 	int  err;
-	pthread_mutexattr_t  attr;//ËøÊôĞÔ
+	pthread_mutexattr_t  attr;//é”å±æ€§
 
-	err = pthread_mutexattr_init(&attr);//³õÊ¼»¯
+	err = pthread_mutexattr_init(&attr);//åˆå§‹åŒ–
 	if (err != 0) {
 		fprintf(stderr, "pthread_mutexattr_init() failed, reason: %s\n", strerror(errno));
 		return ERROR;
 	}
 
-	//¼ì²éËø£¬Èç¹ûÍ¬Ò»¸öÏß³ÌÇëÇóÒ»¸öËø£¬£¬²»ÔÊĞí¶à´Î¼ÓËø£¬¼òµ¥ËÀËøÏÖÏóµÄ¶Å¾ø
-	//PTHREAD_MUTEX_ERRORCHECK£ºÆÕÍ¨Ëø£¬ÆäËûÏß³ÌÇëÇóËøÇëÇóĞÎ³É¶ÓÁĞ£¬±£Ö¤×ÊÔ´·ÖÅä¹«Æ½
+	//æ£€æŸ¥é”ï¼Œå¦‚æœåŒä¸€ä¸ªçº¿ç¨‹è¯·æ±‚ä¸€ä¸ªé”ï¼Œï¼Œä¸å…è®¸å¤šæ¬¡åŠ é”ï¼Œç®€å•æ­»é”ç°è±¡çš„æœç»
+	//PTHREAD_MUTEX_ERRORCHECKï¼šæ™®é€šé”ï¼Œå…¶ä»–çº¿ç¨‹è¯·æ±‚é”è¯·æ±‚å½¢æˆé˜Ÿåˆ—ï¼Œä¿è¯èµ„æºåˆ†é…å…¬å¹³
 	err = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_ERRORCHECK);
 	if (err != 0) {
 		fprintf(stderr, "pthread_mutexattr_settype(PTHREAD_MUTEX_ERRORCHECK) failed, reason: %s\n", strerror(errno));
 		return ERROR;
 	}
 
-	err = pthread_mutex_init(mtx, &attr);//Ê¹ÓÃÊôĞÔ³õÊ¼»¯
+	err = pthread_mutex_init(mtx, &attr);//ä½¿ç”¨å±æ€§åˆå§‹åŒ–
 	if (err != 0) {
 		fprintf(stderr, "pthread_mutex_init() failed, reason: %s\n", strerror(errno));
 		return ERROR;
 	}
 
-	err = pthread_mutexattr_destroy(&attr);//ÊÍ·Å
+	err = pthread_mutexattr_destroy(&attr);//é‡Šæ”¾
 	if (err != 0) {
 		fprintf(stderr, "pthread_mutexattr_destroy() failed, reason: %s\n", strerror(errno));
 	}
@@ -35,9 +35,7 @@ int ThreadMutex::thread_mutex_create(pthread_mutex_t* mtx)
 
 int ThreadMutex::thread_mutex_destroy(pthread_mutex_t* mtx)
 {
-	int  err;
-
-	err = pthread_mutex_destroy(mtx);
+	int  err = pthread_mutex_destroy(mtx);
 	if (err != 0) {
 		fprintf(stderr, "pthread_mutex_destroy() failed, reason: %s\n", strerror(errno));
 		return ERROR;
@@ -48,9 +46,7 @@ int ThreadMutex::thread_mutex_destroy(pthread_mutex_t* mtx)
 
 int ThreadMutex::thread_mutex_lock(pthread_mutex_t* mtx)
 {
-	int  err;
-
-	err = pthread_mutex_lock(mtx);
+	int  err = pthread_mutex_lock(mtx);
 	if (err == 0) {
 		return OK;
 	}
@@ -61,9 +57,7 @@ int ThreadMutex::thread_mutex_lock(pthread_mutex_t* mtx)
 
 int ThreadMutex::thread_mutex_unlock(pthread_mutex_t* mtx)
 {
-	int  err;
-
-	err = pthread_mutex_unlock(mtx);
+	int  err = pthread_mutex_unlock(mtx);
 
 	if (err == 0) {
 		return OK;
